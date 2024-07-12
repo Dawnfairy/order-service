@@ -4,32 +4,26 @@ import com.order.orderservice.dto.OrderDto;
 import com.order.orderservice.entities.Order;
 import com.order.orderservice.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
+
+    private final OrderRepository orderRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
-
-    public OrderServiceImpl() {
-    }
-
-    @Override
-    public List<OrderDto> getAllOrders() {
-        return orderRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     @Override
     public OrderDto createOrder(OrderDto orderDto) {
-        if(orderDto.getOrderDate() == null){
-            orderDto.setOrderDate(LocalDateTime.now());
-        }
         Order order = convertFromDto(orderDto);
         return convertToDto(orderRepository.save(order));
     }
@@ -39,9 +33,13 @@ public class OrderServiceImpl implements OrderService{
         return orderRepository.findById(id).map(this::convertToDto);
     }
 
+    @Override
+    public Page<OrderDto> getOrders(Pageable pageable) {
+        return orderRepository.findAll(pageable).map(this::convertToDto);
+    }
+
     private OrderDto convertToDto(Order order) {
         OrderDto orderDto = new OrderDto();
-        orderDto.setOrderId(order.getOrderId());
         orderDto.setOrderDate(order.getOrderDate());
         orderDto.setCustomerId(order.getCustomerId());
         orderDto.setCustomerAddress(order.getCustomerAddress());
@@ -53,8 +51,7 @@ public class OrderServiceImpl implements OrderService{
 
     private Order convertFromDto(OrderDto orderDto) {
         Order order = new Order();
-        order.setOrderId(orderDto.getOrderId());
-        order.setOrderDate(orderDto.getOrderDate());
+        order.setOrderDate(LocalDateTime.now());
         order.setCustomerId(orderDto.getCustomerId());
         order.setCustomerAddress(orderDto.getCustomerAddress());
         order.setCustomerName(orderDto.getCustomerName());

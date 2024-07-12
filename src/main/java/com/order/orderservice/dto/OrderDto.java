@@ -5,27 +5,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDto {
 
-    private Integer orderId;
-    @NotBlank(message = "")
     private LocalDateTime orderDate;
-    @NotBlank(message = "")
+    @NotBlank(message = "Customer ID cannot be blank")
     private Integer customerId;
-    @NotBlank(message = "")
+
+    @NotBlank(message = "Customer name cannot be blank")
     private String customerName;
-    @NotBlank(message = "")
+
+    @NotBlank(message = "Customer address cannot be blank")
     private String customerAddress;
-    @NotBlank(message = "")
+
+    @NotBlank(message = "Customer phone cannot be blank")
     private String customerPhone;
-    @NotBlank(message = "")
+
+    @NotBlank(message = "Order status cannot be blank")
     private String orderStatus;
 
 }
