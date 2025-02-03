@@ -104,12 +104,3 @@ Bu proje, sipariş yönetim işlemlerini kolaylaştırmak ve RESTful API uygulam
   
   - Belirli bir siparişi görmek için:  
     http://localhost:8080/orders/1 (orderId yerine geçerli bir ID)
-
----
-
-## İletişim
-
-Proje ile ilgili sorular, geri bildirimler veya katkı talepleri için aşağıdaki kişilerle iletişime geçebilirsiniz:
-
-  Fatma Nur Kurt - kurtfatmanur8@gmail.com
-  Tayyib Okur - ultratayyib@gmail.com
